@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f4f2ed" />
+  <title>ഇടുക്കി ജില്ലാ ഭാഗ്യക്കുറി ഓഫീസ് · രസീത്</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="രസീത് ഹോം"><span class="brand-mark">ര</span><span><strong>രസീത്</strong><small>IDUKKI · LOTTERY OFFICE</small></span></a>
+    <div class="actions"><span class="autosave"><i></i> ഈ ഉപകരണത്തിൽ സ്വയം സൂക്ഷിക്കുന്നു</span><button class="print-btn" id="printButton"><span>⇧</span> പ്രിന്റ് ചെയ്യുക</button></div>
+  </header>
+  <main>
+    <section class="intro"><div><p class="eyebrow">IDUKKI DISTRICT LOTTERY OFFICE</p><h1>രസീത് തയ്യാറാക്കുക</h1><p class="sub">വിവരങ്ങൾ പൂരിപ്പിക്കൂ. രണ്ട് പകർപ്പുകളും ഒരുമിച്ച് അപ്ഡേറ്റ് ചെയ്ത് A4 ലാൻഡ്‌സ്‌കേപ്പിൽ പ്രിന്റ് ചെയ്യാം.</p></div><div class="paper-badge"><span>▤</span><div><b>A4</b><small>Landscape · 2 copies</small></div></div></section>
+    <section class="workspace">
+      <aside class="form-panel"><div class="panel-title"><div><span class="step">01</span><h2>വിവരങ്ങൾ</h2></div><button class="clear-btn" id="clearButton">മായ്ക്കുക</button></div><p class="hint">പൂരിപ്പിക്കുന്ന വിവരങ്ങൾ രസീതിൽ കാണാം.</p>
+        <form id="receiptForm" autocomplete="off">
+          <label>തീയതി<input name="date" type="date" /></label>
+          <label>ലോട്ടറിയുടെ പേര്<input name="lottery" placeholder="ഉദാ: കാരുണ്യ പ്ലസ്" /></label>
+          <label>ഏത് ലോട്ടറിയുടെ<input name="draw" placeholder="ഉദാ: KN- 542" /></label>
+          <div class="field-row"><label>ടിക്കറ്റ് കെട്ടുകൾ<input name="bundles" placeholder="എണ്ണം" inputmode="numeric" /></label><label>ഓരോ കെട്ടിലുമുള്ള ടിക്കറ്റുകൾ<input name="tickets" placeholder="എണ്ണം" inputmode="numeric" /></label></div>
+          <label>കൂലി · രൂപ<input name="wage" placeholder="തുക" inputmode="decimal" /></label>
+          <label>തുക അക്ഷരത്തിൽ<input name="amountWords" placeholder="തുക വാക്കുകളിൽ" /></label>
+          <label>ഓഫീസിൽ നിന്ന് കൈപ്പറ്റിയ തുക<input name="received" placeholder="രൂപ" inputmode="decimal" /></label>
+          <label>മുൻകൂറായി നൽകിയ തുക<input name="advance" placeholder="രൂപ" inputmode="decimal" /></label>
+          <div class="field-row"><label>ഷിഫ്റ്റ്<input name="shift" placeholder="Night" /></label><label>ചുമട്ടുകാരൻ<input name="porter" placeholder="പേര്" /></label></div>
+          <div class="form-note"><span>↳</span> തീയതി “തൊടുപുഴ” എന്നതിന് തൊട്ടുമുകളിൽ അച്ചടിക്കും.</div>
+        </form>
+      </aside>
+      <section class="preview-panel"><div class="preview-head"><div><span class="step">02</span><h2>പ്രിന്റ് പ്രിവ്യൂ</h2></div><span class="copy-count">രണ്ട് പകർപ്പുകൾ <b>02</b></span></div>
+        <div class="paper-wrap"><div class="paper" id="paper"><article class="copy"><div class="receipt-title">രസീത്</div><p>സംസ്ഥാന ഭാഗ്യക്കുറിയുടെ <u data-value="lottery">________________</u> ലോട്ടറി</p><p>യുടെ <u data-value="draw">________________</u> ടിക്കറ്റുകൾ അടങ്ങിയ <u data-value="bundles">_____</u> കെട്ടുകൾ</p><p>ഇടുക്കി ജില്ലാ ഭാഗ്യക്കുറി ഓഫീസിൽ</p><p>ചുമന്നിട്ടത്തിന്റെ കൂലിയായി <u data-value="wage">________</u> രൂപ</p><p class="words">(<span data-value="amountWords">__________________________________</span>)</p><p>ഇടുക്കി ജില്ലാ ഭാഗ്യക്കുറി ഓഫീസിൽ നിന്നും</p><p>കൈപ്പറ്റിയിരിക്കുന്നു</p><div class="signature">___________________</div><div class="place"><span class="date-value" data-value="date"></span><b>തൊടുപുഴ</b><span>ചുമട്ടുകാരൻ</span></div><p>ഈ തുക എന്റെ കയ്യിൽ നിന്നും മുൻകൂറായി</p><p>കൊടുത്തിട്ടുള്ളതാണ്</p><div class="signature second">___________________ <span data-value="shift">(Night)</span></div><div class="place"><span class="date-value" data-value="date"></span><b>തൊടുപുഴ</b><span data-value="porter">മനു വി എം</span></div><p class="designation">[നൈറ്റ് വാച്ചർ]</p></article><article class="copy"><div class="receipt-title">രസീത്</div><p>സംസ്ഥാന ഭാഗ്യക്കുറിയുടെ <u data-value="lottery">________________</u> ലോട്ടറി</p><p>യുടെ <u data-value="draw">________________</u> ടിക്കറ്റുകൾ അടങ്ങിയ <u data-value="bundles">_____</u> കെട്ടുകൾ</p><p>ഇടുക്കി ജില്ലാ ഭാഗ്യക്കുറി ഓഫീസിൽ</p><p>ചുമന്നിട്ടത്തിന്റെ കൂലിയായി <u data-value="wage">________</u> രൂപ</p><p class="words">(<span data-value="amountWords">__________________________________</span>)</p><p>ഇടുക്കി ജില്ലാ ഭാഗ്യക്കുറി ഓഫീസിൽ നിന്നും</p><p>കൈപ്പറ്റിയിരിക്കുന്നു</p><div class="signature">___________________</div><div class="place"><span class="date-value" data-value="date"></span><b>തൊടുപുഴ</b><span>ചുമട്ടുകാരൻ</span></div><p>ഈ തുക എന്റെ കയ്യിൽ നിന്നും മുൻകൂറായി</p><p>കൊടുത്തിട്ടുള്ളതാണ്</p><div class="signature second">___________________ <span data-value="shift">(Night)</span></div><div class="place"><span class="date-value" data-value="date"></span><b>തൊടുപുഴ</b><span data-value="porter">മനു വി എം</span></div><p class="designation">[നൈറ്റ് വാച്ചർ]</p></article></div></div>
+        <div class="preview-foot"><span><i></i> <b>A4 landscape</b> · ഒരേ ഷീറ്റിൽ രണ്ട് പകർപ്പുകൾ</span><span class="shortcut">⌘ P / Ctrl P</span></div>
+      </section>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
