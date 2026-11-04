@@ -13,3 +13,5 @@
 .form-panel{padding-bottom:18px}
 @media(max-width:720px){.receipt-forms{grid-template-columns:1fr}}
 @media print{.receipt-forms{display:none!important}.paper{font-size:11pt;line-height:1.8}.copy{padding:0 8mm}.copy+.copy{padding-left:10mm}.copy p{margin-bottom:1.5mm}.signature{margin-top:6mm}}
+.signature{text-align:left;letter-spacing:0}
+.signature.second{margin-top:5mm}
