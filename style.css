@@ -38,4 +38,5 @@
 .receipt-title{font-size:calc(24px * var(--receipt-font-scale,1))}
 .receipt-body p{white-space:normal}
 .paper.justified .receipt-body p{text-align:justify;text-align-last:justify}
+.place.night-place .shift{grid-column:2;grid-row:1;justify-self:start;text-align:left}
 @media print{.paper{font-size:calc(12.5pt * var(--receipt-font-scale,1));font-weight:500;line-height:1.7}.receipt-title{font-size:calc(26pt * var(--receipt-font-scale,1));font-weight:700}.copy u{border-bottom:1px solid #222}.copy p{margin-bottom:1.5mm}}
