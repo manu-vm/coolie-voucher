@@ -27,4 +27,9 @@
 .paper{font-weight:500}
 .receipt-title{font-size:24px}
 .copy u{border-bottom:1px solid #333}
+.preview-actions{display:flex;align-items:center;gap:12px}
+.justify-btn{border:1px solid #d6dfd6;border-radius:6px;background:#fffefa;color:#294c3d;font:600 11px 'DM Sans',sans-serif;padding:7px 10px;cursor:pointer}
+.justify-btn[aria-pressed="true"]{background:#294c3d;color:#fff;border-color:#294c3d}
+.receipt-body p{white-space:normal}
+.paper.justified .receipt-body p{text-align:justify;text-align-last:justify}
 @media print{.paper{font-size:12.5pt;font-weight:500;line-height:1.7}.receipt-title{font-size:26pt;font-weight:700}.copy u{border-bottom:1px solid #222}.copy p{margin-bottom:1.5mm}}
