@@ -87,6 +87,24 @@ justifyButton.addEventListener('click', () => {
   const justified = paper.classList.toggle('justified');
   justifyButton.setAttribute('aria-pressed', String(justified));
 });
+const FONT_SCALE_KEY = 'idukki-receipt-font-scale';
+let fontScale = Number(localStorage.getItem(FONT_SCALE_KEY)) || 1;
+const fontSizeLabel = document.querySelector('#fontSizeLabel');
+function updateFontScale() {
+  fontScale = Math.min(1.5, Math.max(0.8, fontScale));
+  paper.style.setProperty('--receipt-font-scale', fontScale);
+  fontSizeLabel.textContent = `${Math.round(fontScale * 100)}%`;
+  localStorage.setItem(FONT_SCALE_KEY, String(fontScale));
+}
+document.querySelector('#fontDown').addEventListener('click', () => {
+  fontScale -= 0.1;
+  updateFontScale();
+});
+document.querySelector('#fontUp').addEventListener('click', () => {
+  fontScale += 0.1;
+  updateFontScale();
+});
+updateFontScale();
 document.querySelector('#clearButton').addEventListener('click', () => {
   form.reset();
   form.querySelectorAll('[data-voucher]').forEach(group => setDate(group, localDate()));
