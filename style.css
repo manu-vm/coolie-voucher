@@ -37,6 +37,7 @@
 .paper{font-size:calc(clamp(8px,.9vw,12px) * var(--receipt-font-scale,1))}
 .receipt-title{font-size:calc(24px * var(--receipt-font-scale,1))}
 .receipt-body p{white-space:normal}
+.copy u.amount-words{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2px;border-bottom:0;padding:0}
 .receipt-body{margin-bottom:20px}
 .copy .advance-note{margin-bottom:20px}
 .paper.justified .receipt-body p{text-align:justify;text-align-last:justify}
