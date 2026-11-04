@@ -87,6 +87,23 @@ justifyButton.addEventListener('click', () => {
   const justified = paper.classList.toggle('justified');
   justifyButton.setAttribute('aria-pressed', String(justified));
 });
+const rotateButton = document.querySelector('#rotateButton');
+const pageOrientation = document.querySelector('#pageOrientation');
+let portrait = localStorage.getItem('idukki-receipt-orientation') === 'portrait';
+function applyOrientation() {
+  paper.classList.toggle('portrait', portrait);
+  paper.classList.toggle('landscape', !portrait);
+  rotateButton.setAttribute('aria-pressed', String(portrait));
+  rotateButton.textContent = portrait ? '↻ Landscape' : '↻ Portrait';
+  pageOrientation.textContent = `@page{size:${portrait ? '210mm 297mm' : '297mm 210mm'};margin:8mm}`;
+  localStorage.setItem('idukki-receipt-orientation', portrait ? 'portrait' : 'landscape');
+}
+rotateButton.addEventListener('click', () => {
+  portrait = !portrait;
+  applyOrientation();
+});
+document.querySelector('#previewPrintButton').addEventListener('click', () => window.print());
+applyOrientation();
 const FONT_SCALE_KEY = 'idukki-receipt-font-scale';
 let fontScale = Number(localStorage.getItem(FONT_SCALE_KEY)) || 1;
 const fontSizeLabel = document.querySelector('#fontSizeLabel');
