@@ -2,7 +2,10 @@ const form = document.querySelector('#receiptForm');
 const saved = JSON.parse(localStorage.getItem('idukki-receipt') || '{}');
 for (const input of form.elements) if (input.name && saved[input.name] !== undefined) input.value = saved[input.name];
 const dateInput = form.elements.date;
-if (!dateInput.value) dateInput.value = new Date().toISOString().slice(0, 10);
+if (!dateInput.value) {
+  const d = new Date();
+  dateInput.value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
 function today() {
   const d = new Date();
   return new Intl.DateTimeFormat('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(d);
