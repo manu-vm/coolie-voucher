@@ -30,6 +30,12 @@
 .preview-actions{display:flex;align-items:center;gap:12px}
 .justify-btn{border:1px solid #d6dfd6;border-radius:6px;background:#fffefa;color:#294c3d;font:600 11px 'DM Sans',sans-serif;padding:7px 10px;cursor:pointer}
 .justify-btn[aria-pressed="true"]{background:#294c3d;color:#fff;border-color:#294c3d}
+.font-controls{display:flex;align-items:center;gap:5px;color:#59685b;font:600 10px 'DM Sans',sans-serif}
+.font-btn{width:30px;height:29px;border:1px solid #d6dfd6;border-radius:6px;background:#fffefa;color:#294c3d;font:700 13px 'DM Sans',sans-serif;cursor:pointer}
+.font-btn:hover,.justify-btn:hover{background:#edf2ed}
+.font-controls span{min-width:36px;text-align:center}
+.paper{font-size:calc(clamp(8px,.9vw,12px) * var(--receipt-font-scale,1))}
+.receipt-title{font-size:calc(24px * var(--receipt-font-scale,1))}
 .receipt-body p{white-space:normal}
 .paper.justified .receipt-body p{text-align:justify;text-align-last:justify}
-@media print{.paper{font-size:12.5pt;font-weight:500;line-height:1.7}.receipt-title{font-size:26pt;font-weight:700}.copy u{border-bottom:1px solid #222}.copy p{margin-bottom:1.5mm}}
+@media print{.paper{font-size:calc(12.5pt * var(--receipt-font-scale,1));font-weight:500;line-height:1.7}.receipt-title{font-size:calc(26pt * var(--receipt-font-scale,1));font-weight:700}.copy u{border-bottom:1px solid #222}.copy p{margin-bottom:1.5mm}}
