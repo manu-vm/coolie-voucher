@@ -19,3 +19,8 @@
 .place .date-value{grid-column:1;grid-row:1;min-height:1em}
 .place b{grid-column:1;grid-row:2}
 .place>span:not(.date-value){grid-column:2;grid-row:2;text-align:right}
+.paper{font-size:clamp(8px,.9vw,12px);font-weight:700}
+.night-place{grid-template-columns:max-content max-content 1fr;column-gap:8px}
+.night-place .shift{grid-column:2;grid-row:1;justify-self:start;text-align:left}
+.night-place>span:last-child{grid-column:3;grid-row:2;text-align:right}
+@media print{.paper{font-size:13pt;font-weight:700;line-height:1.7}.receipt-title{font-size:27pt}.copy p{margin-bottom:1.7mm}.night-place{column-gap:3mm}}
