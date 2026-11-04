@@ -81,6 +81,12 @@ function render() {
 }
 form.addEventListener('input', render);
 document.querySelector('#printButton').addEventListener('click', () => window.print());
+const justifyButton = document.querySelector('#justifyButton');
+const paper = document.querySelector('#paper');
+justifyButton.addEventListener('click', () => {
+  const justified = paper.classList.toggle('justified');
+  justifyButton.setAttribute('aria-pressed', String(justified));
+});
 document.querySelector('#clearButton').addEventListener('click', () => {
   form.reset();
   form.querySelectorAll('[data-voucher]').forEach(group => setDate(group, localDate()));
