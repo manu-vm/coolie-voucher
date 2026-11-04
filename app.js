@@ -42,7 +42,7 @@ function underThousand(n) {
 function numberWords(n) {
   if (!Number.isFinite(n) || n < 0 || n > 99999999) return '';
   n = Math.floor(n);
-  if (n === 0) return 'പൂജ്യം രൂപ';
+  if (n === 0) return 'പൂജ്യം രൂപ മാത്രം';
   const chunks = [];
   const lakh = Math.floor(n / 100000);
   const thousand = Math.floor((n % 100000) / 1000);
@@ -50,7 +50,7 @@ function numberWords(n) {
   if (lakh) chunks.push(`${underThousand(lakh)} ലക്ഷം`);
   if (thousand) chunks.push(`${underThousand(thousand)} ആയിരം`);
   if (rest) chunks.push(underThousand(rest));
-  return `${chunks.join(' ')} രൂപ`;
+  return `${chunks.join(' ')} രൂപ മാത്രം`;
 }
 function dateLabel(value) {
   if (!value) return '';
