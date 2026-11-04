@@ -15,3 +15,7 @@
 @media print{.receipt-forms{display:none!important}.paper{font-size:11pt;line-height:1.8}.copy{padding:0 8mm}.copy+.copy{padding-left:10mm}.copy p{margin-bottom:1.5mm}.signature{margin-top:6mm}}
 .signature{text-align:left;letter-spacing:0}
 .signature.second{margin-top:5mm}
+.place{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;align-items:center;row-gap:1mm}
+.place .date-value{grid-column:1;grid-row:1;min-height:1em}
+.place b{grid-column:1;grid-row:2}
+.place>span:not(.date-value){grid-column:2;grid-row:2;text-align:right}
