@@ -58,6 +58,7 @@
 .diversion-copy .receipt-title{text-align:center;font:700 calc(27px * var(--receipt-font-scale,1))/1.5 'Noto Sans Malayalam',sans-serif;margin:0 0 10px}
 .diversion-body{margin:0 0 30px}
 .diversion-body p{margin:0;line-height:1.65}
+.diversion-date{margin:0 3px 1mm;font-size:.9em;min-height:1em}
 .diversion-copy u{white-space:nowrap;text-decoration:none;border-bottom:1px dotted #222;padding:0 3px 3px}
 .diversion-copy .amount-words{white-space:normal;border-bottom:1px dotted #222!important;padding:0 0 4px!important;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .diversion-place{display:flex;justify-content:space-between;align-items:flex-start;margin:0 3px 10px;font-size:.98em}
@@ -78,6 +79,7 @@
   body.print-diversion .diversion-copy .receipt-title{font-size:calc(21pt * var(--receipt-font-scale,1));margin-bottom:4mm}
   body.print-diversion .diversion-body{margin-bottom:8mm}
   body.print-diversion .diversion-copy .advance-note{margin:5mm 0 10mm}
+  body.print-diversion .diversion-date{margin-bottom:1mm}
   body.print-diversion .diversion-place{margin-bottom:3mm}
   body.print-diversion .diversion-copy u{padding-bottom:1mm}
   body.print-diversion .diversion-copy .amount-words{padding-bottom:1mm!important}
