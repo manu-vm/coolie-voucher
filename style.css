@@ -94,6 +94,9 @@
 .data-tool-card p{font:10px 'Noto Sans Malayalam';color:#77786f;margin:0 0 12px}
 .data-tool-actions{display:flex;align-items:flex-end;gap:9px;flex-wrap:wrap}
 .secondary-action,.file-action{min-height:35px;border:1px solid #d6dfd6;border-radius:6px;background:#fff;color:#294c3d;padding:8px 11px;font:600 10px 'Noto Sans Malayalam';cursor:pointer}
+.danger-action,.undo-action{min-height:35px;border:1px solid #e4c7c2;border-radius:6px;background:#fff;color:#9a4236;padding:8px 11px;font:600 10px 'Noto Sans Malayalam';cursor:pointer}
+.undo-action{border-color:#d6dfd6;color:#294c3d}
+.undo-action:disabled{opacity:.45;cursor:not-allowed}
 .file-action{display:inline-flex;align-items:center;position:relative;overflow:hidden}
 .file-action input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
 .month-label{max-width:180px}
