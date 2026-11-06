@@ -230,12 +230,12 @@ document.querySelector('#exportCsvButton').addEventListener('click', () => {
     document.querySelector('#exportStatus').textContent = 'ഈ മാസത്തിൽ എക്സ്പോർട്ട് ചെയ്യാനുള്ള വിവരങ്ങളില്ല.';
     return;
   }
-  const headings = ['വൗച്ചർ', 'തീയതി', 'ലോട്ടറി നറുക്കെടുപ്പ്', 'ടിക്കറ്റുകൾ', 'കെട്ടുകൾ', 'ഒരു കെട്ടിന്റെ കൂലി', 'ആകെ കൂലി', 'തുക അക്ഷരത്തിൽ'];
-  const labels = { 1: 'രസീത് 1', 2: 'രസീത് 2', 3: 'Diverstion Ticket · ഇടത്', 4: 'രസീത് · വലത്' };
+  const headings = ['തീയതി', 'ലോട്ടറി നറുക്കെടുപ്പ്', 'ടിക്കറ്റുകൾ', 'കെട്ടുകൾ', 'ഒരു കെട്ടിന്റെ കൂലി', 'ആകെ കൂലി'];
   const escape = value => `"${String(value ?? '').replace(/"/g, '""')}"`;
   const csvRows = rows.map(entry => {
     const total = (Number(entry.bundles) || 0) * (Number(entry.bundleCharge) || 0);
-    return [labels[entry.voucherId] || 'രസീത്', entry.date, entry.draw, entry.tickets, entry.bundles, entry.bundleCharge, total, numberWords(total)];
+    const dateAsText = entry.date ? `="${dateLabel(entry.date)}"` : '';
+    return [dateAsText, entry.draw, entry.tickets, entry.bundles, entry.bundleCharge, total];
   });
   const csv = `\ufeff${[headings, ...csvRows].map(row => row.map(escape).join(',')).join('\r\n')}`;
   downloadFile(`idukki-vouchers-${month}.csv`, csv, 'text/csv;charset=utf-8');
