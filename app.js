@@ -4,8 +4,12 @@ const receiptForms = [form, diversionForm];
 const STORE_KEY = 'idukki-receipts-v2';
 const ARCHIVE_KEY = 'idukki-receipts-monthly-v1';
 const BACKUP_KEY = 'idukki-receipts-auto-backup-v1';
+const UNDO_KEY = 'idukki-receipts-csv-delete-undo-v1';
+const DELETED_KEY = 'idukki-receipts-csv-deleted-v1';
 const saved = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
 const monthlyArchive = JSON.parse(localStorage.getItem(ARCHIVE_KEY) || '{}');
+const deletedCsvEntries = JSON.parse(localStorage.getItem(DELETED_KEY) || '{}');
+let pendingUndo = JSON.parse(localStorage.getItem(UNDO_KEY) || 'null');
 const ones = ['', 'ഒന്ന്', 'രണ്ട്', 'മൂന്ന്', 'നാല്', 'അഞ്ച്', 'ആറ്', 'ഏഴ്', 'എട്ട്', 'ഒൻപത്'];
 const teens = ['', 'പതിനൊന്ന്', 'പന്ത്രണ്ട്', 'പതിമൂന്ന്', 'പതിനാല്', 'പതിനഞ്ച്', 'പതിനാറ്', 'പതിനേഴ്', 'പതിനെട്ട്', 'പത്തൊമ്പത്'];
 const tens = ['', '', 'ഇരുപത്', 'മുപ്പത്', 'നാൽപ്പത്', 'അമ്പത്', 'അറുപത്', 'എഴുപത്', 'എൺപത്', 'തൊണ്ണൂറ്'];
@@ -80,22 +84,35 @@ function renderGroup(group) {
   group.querySelector('[data-words]').textContent = words;
   saved[index] = values;
 }
+function saveArchiveAndBackup() {
+  localStorage.setItem(ARCHIVE_KEY, JSON.stringify(monthlyArchive));
+  localStorage.setItem(DELETED_KEY, JSON.stringify(deletedCsvEntries));
+  localStorage.setItem(BACKUP_KEY, JSON.stringify({ version: 1, savedAt: new Date().toISOString(), saved, monthlyArchive, deletedCsvEntries }));
+  const backupStatus = document.querySelector('#backupStatus');
+  if (backupStatus) backupStatus.textContent = `ഓട്ടോമാറ്റിക് ബാക്കപ്പ് സജ്ജമാണ് · ${new Date().toLocaleString()}`;
+}
 function render() {
   document.querySelectorAll('[data-voucher]').forEach(renderGroup);
   localStorage.setItem(STORE_KEY, JSON.stringify(saved));
   for (const [voucherId, values] of Object.entries(saved)) {
     const month = values.date?.slice(0, 7);
     const hasEntry = values.draw || values.tickets || values.bundles || values.bundleCharge;
-    if (month && hasEntry) monthlyArchive[`${month}|${voucherId}`] = { voucherId, ...values };
+    const archiveKey = `${month}|${voucherId}`;
+    if (month && hasEntry && !deletedCsvEntries[archiveKey]) monthlyArchive[archiveKey] = { voucherId, ...values };
   }
-  localStorage.setItem(ARCHIVE_KEY, JSON.stringify(monthlyArchive));
-  localStorage.setItem(BACKUP_KEY, JSON.stringify({ version: 1, savedAt: new Date().toISOString(), saved, monthlyArchive }));
-  const backupStatus = document.querySelector('#backupStatus');
-  if (backupStatus) backupStatus.textContent = `ഓട്ടോമാറ്റിക് ബാക്കപ്പ് സജ്ജമാണ് · ${new Date().toLocaleString()}`;
+  saveArchiveAndBackup();
 }
 receiptForms.forEach(receiptForm => {
-  receiptForm.addEventListener('input', render);
-  receiptForm.addEventListener('change', render);
+  const handleFormUpdate = event => {
+    const group = event.target.closest('[data-voucher]');
+    if (group) {
+      const date = group.querySelector('[name="date"]').value;
+      delete deletedCsvEntries[`${date.slice(0, 7)}|${group.dataset.voucher}`];
+    }
+    render();
+  };
+  receiptForm.addEventListener('input', handleFormUpdate);
+  receiptForm.addEventListener('change', handleFormUpdate);
 });
 document.querySelector('#printButton').addEventListener('click', () => window.print());
 const justifyButton = document.querySelector('#justifyButton');
@@ -169,8 +186,13 @@ function monthNow() {
 }
 const exportMonth = document.querySelector('#exportMonth');
 exportMonth.value = monthNow();
+const deleteCsvButton = document.querySelector('#deleteCsvButton');
+const undoCsvDeleteButton = document.querySelector('#undoCsvDeleteButton');
+undoCsvDeleteButton.disabled = !pendingUndo;
+deleteCsvButton.disabled = Boolean(pendingUndo);
+if (pendingUndo) document.querySelector('#exportStatus').textContent = `മാസം ${pendingUndo.month} മായ്ച്ചു · Undo ഉപയോഗിച്ച് തിരിച്ചെടുക്കാം.`;
 document.querySelector('#downloadBackupButton').addEventListener('click', () => {
-  const backup = { version: 1, savedAt: new Date().toISOString(), saved, monthlyArchive };
+  const backup = { version: 1, savedAt: new Date().toISOString(), saved, monthlyArchive, deletedCsvEntries };
   downloadFile(`idukki-voucher-backup-${monthNow()}.json`, JSON.stringify(backup, null, 2), 'application/json');
 });
 document.querySelector('#restoreBackupInput').addEventListener('change', async event => {
@@ -183,12 +205,18 @@ document.querySelector('#restoreBackupInput').addEventListener('change', async e
     Object.assign(saved, backup.saved);
     Object.keys(monthlyArchive).forEach(key => delete monthlyArchive[key]);
     Object.assign(monthlyArchive, backup.monthlyArchive);
+    Object.keys(deletedCsvEntries).forEach(key => delete deletedCsvEntries[key]);
+    Object.assign(deletedCsvEntries, backup.deletedCsvEntries || {});
+    pendingUndo = null;
+    localStorage.removeItem(UNDO_KEY);
     for (const group of document.querySelectorAll('[data-voucher]')) {
       const values = saved[group.dataset.voucher] || {};
       for (const input of group.querySelectorAll('[name]')) input.value = values[input.name] ?? '';
       if (!group.querySelector('[name="date"]').value) setDate(group, localDate());
     }
     render();
+    undoCsvDeleteButton.disabled = true;
+    deleteCsvButton.disabled = false;
     document.querySelector('#backupStatus').textContent = 'ബാക്കപ്പ് പുനഃസ്ഥാപിച്ചു.';
   } catch {
     document.querySelector('#backupStatus').textContent = 'ഈ ബാക്കപ്പ് ഫയൽ വായിക്കാൻ കഴിഞ്ഞില്ല.';
@@ -212,4 +240,35 @@ document.querySelector('#exportCsvButton').addEventListener('click', () => {
   const csv = `\ufeff${[headings, ...csvRows].map(row => row.map(escape).join(',')).join('\r\n')}`;
   downloadFile(`idukki-vouchers-${month}.csv`, csv, 'text/csv;charset=utf-8');
   document.querySelector('#exportStatus').textContent = `${rows.length} രസീത് വിവരങ്ങൾ CSV ആയി ഡൗൺലോഡ് ചെയ്തു.`;
+});
+deleteCsvButton.addEventListener('click', () => {
+  const month = exportMonth.value;
+  const entries = Object.entries(monthlyArchive).filter(([key]) => key.startsWith(`${month}|`));
+  if (!entries.length) {
+    document.querySelector('#exportStatus').textContent = 'ഈ മാസത്തിൽ മായ്ക്കാനുള്ള വിവരങ്ങളില്ല.';
+    return;
+  }
+  pendingUndo = { month, entries };
+  localStorage.setItem(UNDO_KEY, JSON.stringify(pendingUndo));
+  entries.forEach(([key]) => {
+    delete monthlyArchive[key];
+    deletedCsvEntries[key] = true;
+  });
+  saveArchiveAndBackup();
+  undoCsvDeleteButton.disabled = false;
+  deleteCsvButton.disabled = true;
+  document.querySelector('#exportStatus').textContent = `${month} മാസത്തെ ${entries.length} റെക്കോർഡുകൾ മായ്ച്ചു. Undo അമർത്തി തിരിച്ചെടുക്കാം.`;
+});
+undoCsvDeleteButton.addEventListener('click', () => {
+  if (!pendingUndo) return;
+  pendingUndo.entries.forEach(([key, value]) => {
+    monthlyArchive[key] = value;
+    delete deletedCsvEntries[key];
+  });
+  pendingUndo = null;
+  localStorage.removeItem(UNDO_KEY);
+  saveArchiveAndBackup();
+  undoCsvDeleteButton.disabled = true;
+  deleteCsvButton.disabled = false;
+  document.querySelector('#exportStatus').textContent = 'മായ്ച്ച ഡാറ്റ തിരിച്ചെടുത്തു.';
 });
