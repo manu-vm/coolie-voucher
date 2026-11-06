@@ -35,20 +35,6 @@
             <label>ഒരു കെട്ടിന്റെ കൂലി · രൂപ<input name="bundleCharge" placeholder="രൂപ" inputmode="decimal" /></label>
             <div class="calculation">ആകെ കൂലി <strong data-total>₹ 0</strong><small data-words>പൂജ്യം രൂപ</small></div>
           </fieldset>
-          <fieldset class="receipt-fields diversion-fields" data-voucher="3"><legend>Diverstion Ticket · ഇടത് പകർപ്പ്</legend>
-            <label>തീയതി<input name="date" type="date" /></label>
-            <label>ലോട്ടറി നറുക്കെടുപ്പ്<input name="draw" placeholder="ഉദാ: KN-542" /></label>
-            <div class="field-row"><label>ടിക്കറ്റ് കെട്ടുകൾ<input name="bundles" placeholder="എണ്ണം" inputmode="numeric" /></label><label>ടിക്കറ്റുകൾ<input name="tickets" placeholder="എണ്ണം" inputmode="numeric" /></label></div>
-            <label>ഒരു കെട്ടിന്റെ കൂലി · രൂപ<input name="bundleCharge" placeholder="രൂപ" inputmode="decimal" /></label>
-            <div class="calculation">ആകെ കൂലി <strong data-total>₹ 0</strong><small data-words>പൂജ്യം രൂപ</small></div>
-          </fieldset>
-          <fieldset class="receipt-fields diversion-fields" data-voucher="4"><legend>രസീത് right · വലത് പകർപ്പ്</legend>
-            <label>തീയതി<input name="date" type="date" /></label>
-            <label>ലോട്ടറി നറുക്കെടുപ്പ്<input name="draw" placeholder="ഉദാ: KN-542" /></label>
-            <div class="field-row"><label>ടിക്കറ്റ് കെട്ടുകൾ<input name="bundles" placeholder="എണ്ണം" inputmode="numeric" /></label><label>ടിക്കറ്റുകൾ<input name="tickets" placeholder="എണ്ണം" inputmode="numeric" /></label></div>
-            <label>ഒരു കെട്ടിന്റെ കൂലി · രൂപ<input name="bundleCharge" placeholder="രൂപ" inputmode="decimal" /></label>
-            <div class="calculation">ആകെ കൂലി <strong data-total>₹ 0</strong><small data-words>പൂജ്യം രൂപ</small></div>
-          </fieldset>
         </form>
       </aside>
       <section class="preview-panel"><div class="preview-head"><div><span class="step">02</span><h2>പ്രിന്റ് പ്രിവ്യൂ</h2></div><div class="preview-actions"><button class="justify-btn" id="justifyButton" type="button" aria-pressed="false">Justify</button><button class="print-btn preview-print-btn" id="previewPrintButton" type="button">⇧ Print</button><div class="font-controls" role="group" aria-label="Receipt font size"><button class="font-btn" id="fontDown" type="button" aria-label="Decrease receipt font size">A−</button><span id="fontSizeLabel" aria-live="polite">100%</span><button class="font-btn" id="fontUp" type="button" aria-label="Increase receipt font size">A+</button></div><span class="copy-count">രണ്ട് പ്രത്യേകം രസീതുകൾ <b>02</b></span></div></div>
@@ -58,6 +44,25 @@
         </div></div>
         <div class="preview-foot"><span><i></i> <b>A4 landscape</b> · രണ്ട് വ്യത്യസ്ത രസീതുകൾ</span><span class="shortcut">⌘ P / Ctrl P</span></div>
       </section>
+    </section>
+    <section class="diversion-input-panel" aria-labelledby="diversionInputHeading">
+      <div class="data-tools-title"><span class="step">03</span><h2 id="diversionInputHeading">Diverstion Ticket · ഇൻപുട്ടുകൾ</h2></div>
+      <form id="diversionForm" autocomplete="off" class="diversion-input-forms">
+        <fieldset class="receipt-fields diversion-fields" data-voucher="3"><legend>Diverstion Ticket · ഇടത് പകർപ്പ്</legend>
+          <label>തീയതി<input name="date" type="date" /></label>
+          <label>ലോട്ടറി നറുക്കെടുപ്പ്<input name="draw" placeholder="ഉദാ: KN-542" /></label>
+          <div class="field-row"><label>ടിക്കറ്റ് കെട്ടുകൾ<input name="bundles" placeholder="എണ്ണം" inputmode="numeric" /></label><label>ടിക്കറ്റുകൾ<input name="tickets" placeholder="എണ്ണം" inputmode="numeric" /></label></div>
+          <label>ഒരു കെട്ടിന്റെ കൂലി · രൂപ<input name="bundleCharge" placeholder="രൂപ" inputmode="decimal" /></label>
+          <div class="calculation">ആകെ കൂലി <strong data-total>₹ 0</strong><small data-words>പൂജ്യം രൂപ</small></div>
+        </fieldset>
+        <fieldset class="receipt-fields diversion-fields" data-voucher="4"><legend>രസീത് right · വലത് പകർപ്പ്</legend>
+          <label>തീയതി<input name="date" type="date" /></label>
+          <label>ലോട്ടറി നറുക്കെടുപ്പ്<input name="draw" placeholder="ഉദാ: KN-542" /></label>
+          <div class="field-row"><label>ടിക്കറ്റ് കെട്ടുകൾ<input name="bundles" placeholder="എണ്ണം" inputmode="numeric" /></label><label>ടിക്കറ്റുകൾ<input name="tickets" placeholder="എണ്ണം" inputmode="numeric" /></label></div>
+          <label>ഒരു കെട്ടിന്റെ കൂലി · രൂപ<input name="bundleCharge" placeholder="രൂപ" inputmode="decimal" /></label>
+          <div class="calculation">ആകെ കൂലി <strong data-total>₹ 0</strong><small data-words>പൂജ്യം രൂപ</small></div>
+        </fieldset>
+      </form>
     </section>
     <section class="diversion-section" aria-labelledby="diversionHeading">
       <div class="diversion-head"><div><span class="step">03</span><h2 id="diversionHeading">Diverstion Ticket · A4 landscape പ്രിന്റ് ഓപ്ഷൻ</h2></div><div class="diversion-actions"><button class="justify-btn" id="diversionJustifyButton" type="button" aria-pressed="false">Justify</button><div class="font-controls" role="group" aria-label="Receipt font size"><button class="font-btn" id="diversionFontDown" type="button" aria-label="Decrease receipt font size">A−</button><span id="diversionFontSizeLabel" aria-live="polite">100%</span><button class="font-btn" id="diversionFontUp" type="button" aria-label="Increase receipt font size">A+</button></div><button class="print-btn" id="diversionPrintButton" type="button">⇧ രണ്ട് വൗച്ചറുകളും പ്രിന്റ് ചെയ്യുക</button></div></div>
