@@ -233,12 +233,13 @@ document.querySelector('#exportCsvButton').addEventListener('click', () => {
     document.querySelector('#exportStatus').textContent = 'ഈ മാസത്തിൽ എക്സ്പോർട്ട് ചെയ്യാനുള്ള വിവരങ്ങളില്ല.';
     return;
   }
-  const headings = ['തീയതി', 'ലോട്ടറി നറുക്കെടുപ്പ്', 'ടിക്കറ്റുകൾ', 'കെട്ടുകൾ', 'ഒരു കെട്ടിന്റെ കൂലി', 'ആകെ കൂലി'];
+  const headings = ['തീയതി', 'Diverstion Ticket?', 'ലോട്ടറി നറുക്കെടുപ്പ്', 'ടിക്കറ്റുകൾ', 'കെട്ടുകൾ', 'ഒരു കെട്ടിന്റെ കൂലി', 'ആകെ കൂലി'];
   const escape = value => `"${String(value ?? '').replace(/"/g, '""')}"`;
   const csvRows = rows.map(entry => {
     const total = (Number(entry.bundles) || 0) * (Number(entry.bundleCharge) || 0);
     const dateAsText = entry.date ? dateLabel(entry.date) : '';
-    return [dateAsText, entry.draw, entry.tickets, entry.bundles, entry.bundleCharge, total];
+    const isDiversion = Number(entry.voucherId) >= 3;
+    return [dateAsText, isDiversion ? 'Yes' : 'No', entry.draw, entry.tickets, entry.bundles, entry.bundleCharge, total];
   });
   const csv = `\ufeff${[headings, ...csvRows].map(row => row.map(escape).join(',')).join('\r\n')}`;
   downloadFile(`idukki-vouchers-${month}.csv`, csv, 'text/csv;charset=utf-8');
