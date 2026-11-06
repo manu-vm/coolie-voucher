@@ -52,7 +52,9 @@
 .diversion-head h2{font:600 14px 'Noto Sans Malayalam';margin:0}
 .diversion-actions{display:flex;align-items:center;gap:8px}
 .diversion-paper-wrap{background:#e9e8e2;border:1px solid #e1dfd7;border-radius:8px;padding:18px;overflow:auto}
-.diversion-paper{width:min(100%,760px);aspect-ratio:210/297;margin:0 auto;background:#fff;box-shadow:0 3px 14px #25241f18;padding:9% 10%;color:#1c1c1a;font:calc(16px * var(--receipt-font-scale,1))/1.65 'Noto Sans Malayalam',sans-serif}
+.diversion-paper{width:min(100%,1100px);aspect-ratio:297/210;margin:0 auto;background:#fff;box-shadow:0 3px 14px #25241f18;padding:5% 4%;display:grid;grid-template-columns:1fr 1fr;color:#1c1c1a;font:calc(14px * var(--receipt-font-scale,1))/1.6 'Noto Sans Malayalam',sans-serif}
+.diversion-copy{padding:0 6%}
+.diversion-copy+.diversion-copy{border-left:1px dashed #b9b9b1}
 .diversion-copy .receipt-title{text-align:center;font:700 calc(27px * var(--receipt-font-scale,1))/1.5 'Noto Sans Malayalam',sans-serif;margin:0 0 10px}
 .diversion-body{margin:0 0 30px}
 .diversion-body p{margin:0;line-height:1.65}
@@ -62,7 +64,7 @@
 .diversion-copy .advance-note{margin:18px 0 48px;line-height:1.7}
 .diversion-copy.justified .diversion-body p{text-align:justify;text-align-last:justify}
 .diversion-bottom span:last-child{text-align:right}
-@media(max-width:720px){.diversion-head{align-items:flex-start;gap:12px;flex-wrap:wrap}.diversion-paper-wrap{padding:10px}.diversion-paper{min-width:460px}}
+@media(max-width:720px){.diversion-head{align-items:flex-start;gap:12px;flex-wrap:wrap}.diversion-paper-wrap{padding:10px}.diversion-paper{min-width:760px}}
 @media print{
   .diversion-section{display:none!important}
   body.print-diversion .topbar,body.print-diversion .intro,body.print-diversion .workspace{display:none!important}
@@ -70,10 +72,12 @@
   body.print-diversion main{max-width:none;margin:0;padding:0}
   body.print-diversion .diversion-head,body.print-diversion .diversion-paper-wrap{border:0;border-radius:0;background:#fff;padding:0}
   body.print-diversion .diversion-head{display:none!important}
-  body.print-diversion .diversion-paper{width:100%;height:281mm;min-width:0;aspect-ratio:auto;margin:0;padding:11mm 10mm;box-shadow:none;font-size:calc(14pt * var(--receipt-font-scale,1));line-height:1.65}
-  body.print-diversion .diversion-copy .receipt-title{font-size:calc(27pt * var(--receipt-font-scale,1));margin-bottom:5mm}
-  body.print-diversion .diversion-body{margin-bottom:13mm}
-  body.print-diversion .diversion-copy .advance-note{margin:7mm 0 17mm}
+  body.print-diversion .diversion-paper{width:100%;height:194mm;min-width:0;aspect-ratio:auto;margin:0;padding:7mm 6mm;box-shadow:none;font-size:calc(11pt * var(--receipt-font-scale,1));line-height:1.65}
+  body.print-diversion .diversion-copy{padding:0 5mm}
+  body.print-diversion .diversion-copy+.diversion-copy{border-left:1px dashed #b9b9b1}
+  body.print-diversion .diversion-copy .receipt-title{font-size:calc(21pt * var(--receipt-font-scale,1));margin-bottom:4mm}
+  body.print-diversion .diversion-body{margin-bottom:8mm}
+  body.print-diversion .diversion-copy .advance-note{margin:5mm 0 10mm}
   body.print-diversion .diversion-place{margin-bottom:3mm}
   body.print-diversion .diversion-copy u{padding-bottom:1mm}
   body.print-diversion .diversion-copy .amount-words{padding-bottom:1mm!important}
