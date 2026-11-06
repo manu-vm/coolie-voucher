@@ -59,8 +59,8 @@
 .diversion-body{margin:0 0 30px}
 .diversion-body p{margin:0;line-height:1.65}
 .diversion-date{margin:0 3px 1mm;font-size:.9em;min-height:1em}
-.diversion-copy u{white-space:nowrap;text-decoration:none;border-bottom:1px dotted #222;padding:0 3px 3px}
-.diversion-copy .amount-words{white-space:normal;border-bottom:1px dotted #222!important;padding:0 0 4px!important;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.diversion-copy u{white-space:nowrap;text-decoration:none;border-bottom:1px dotted #222;padding:0 3px 0}
+.diversion-copy .amount-words{white-space:normal;border-bottom:1px dotted #222!important;padding:0 0 1px!important;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .diversion-place{display:flex;justify-content:space-between;align-items:flex-start;margin:0 3px 10px;font-size:.98em}
 .diversion-copy .advance-note{margin:18px 0 48px;line-height:1.7}
 .diversion-copy.justified .diversion-body p{text-align:justify;text-align-last:justify}
@@ -81,6 +81,6 @@
   body.print-diversion .diversion-copy .advance-note{margin:5mm 0 10mm}
   body.print-diversion .diversion-date{margin-bottom:1mm}
   body.print-diversion .diversion-place{margin-bottom:3mm}
-  body.print-diversion .diversion-copy u{padding-bottom:1mm}
-  body.print-diversion .diversion-copy .amount-words{padding-bottom:1mm!important}
+  body.print-diversion .diversion-copy u{padding-bottom:0}
+  body.print-diversion .diversion-copy .amount-words{padding-bottom:0!important}
 }
