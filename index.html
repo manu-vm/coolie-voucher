@@ -76,6 +76,13 @@
         </article>
       </div></div>
     </section>
+    <section class="data-tools" aria-labelledby="dataToolsHeading">
+      <div class="data-tools-title"><span class="step">04</span><h2 id="dataToolsHeading">ഡാറ്റ ബാക്കപ്പും എക്സ്പോർട്ടും</h2></div>
+      <div class="data-tools-grid">
+        <div class="data-tool-card"><h3>ഓട്ടോമാറ്റിക് ബാക്കപ്പ്</h3><p id="backupStatus" aria-live="polite">ഈ ഉപകരണത്തിൽ ബാക്കപ്പ് സൂക്ഷിക്കുന്നു.</p><div class="data-tool-actions"><button class="secondary-action" id="downloadBackupButton" type="button">ബാക്കപ്പ് ഡൗൺലോഡ്</button><label class="file-action">ബാക്കപ്പ് പുനഃസ്ഥാപിക്കുക<input id="restoreBackupInput" type="file" accept="application/json,.json" /></label></div></div>
+        <div class="data-tool-card"><h3>മാസത്തിലെ CSV ഫയൽ</h3><p>തിരഞ്ഞെടുത്ത മാസത്തിലെ രസീത് വിവരങ്ങൾ CSV ആയി എക്സ്പോർട്ട് ചെയ്യുക.</p><div class="data-tool-actions"><label class="month-label">മാസം<input id="exportMonth" type="month" /></label><button class="secondary-action" id="exportCsvButton" type="button">CSV ഡൗൺലോഡ്</button></div><p id="exportStatus" class="tool-status" aria-live="polite"></p></div>
+      </div>
+    </section>
   </main>
   <script src="app.js"></script>
 </body>
