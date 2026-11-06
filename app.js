@@ -88,6 +88,12 @@ justifyButton.addEventListener('click', () => {
   justifyButton.setAttribute('aria-pressed', String(justified));
 });
 document.querySelector('#previewPrintButton').addEventListener('click', () => window.print());
+const diversionCopy = document.querySelector('.diversion-copy');
+const diversionJustifyButton = document.querySelector('#diversionJustifyButton');
+diversionJustifyButton.addEventListener('click', () => {
+  const justified = diversionCopy.classList.toggle('justified');
+  diversionJustifyButton.setAttribute('aria-pressed', String(justified));
+});
 const orientationStyle = document.querySelector('#pageOrientation');
 document.querySelector('#diversionPrintButton').addEventListener('click', () => {
   document.body.classList.add('print-diversion');
