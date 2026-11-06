@@ -50,6 +50,7 @@
 .diversion-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
 .diversion-head>div{display:flex;align-items:center;gap:10px}
 .diversion-head h2{font:600 14px 'Noto Sans Malayalam';margin:0}
+.diversion-actions{display:flex;align-items:center;gap:8px}
 .diversion-paper-wrap{background:#e9e8e2;border:1px solid #e1dfd7;border-radius:8px;padding:18px;overflow:auto}
 .diversion-paper{width:min(100%,760px);aspect-ratio:210/297;margin:0 auto;background:#fff;box-shadow:0 3px 14px #25241f18;padding:9% 10%;color:#1c1c1a;font:calc(16px * var(--receipt-font-scale,1))/1.65 'Noto Sans Malayalam',sans-serif}
 .diversion-copy .receipt-title{text-align:center;font:700 calc(27px * var(--receipt-font-scale,1))/1.5 'Noto Sans Malayalam',sans-serif;margin:0 0 10px}
@@ -59,6 +60,7 @@
 .diversion-copy .amount-words{white-space:normal;border-bottom:1px dotted #222!important;padding:0 0 4px!important;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .diversion-place{display:flex;justify-content:space-between;align-items:flex-start;margin:0 3px 10px;font-size:.98em}
 .diversion-copy .advance-note{margin:18px 0 48px;line-height:1.7}
+.diversion-copy.justified .diversion-body p{text-align:justify;text-align-last:justify}
 .diversion-bottom span:last-child{text-align:right}
 @media(max-width:720px){.diversion-head{align-items:flex-start;gap:12px;flex-wrap:wrap}.diversion-paper-wrap{padding:10px}.diversion-paper{min-width:460px}}
 @media print{
