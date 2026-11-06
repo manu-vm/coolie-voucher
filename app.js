@@ -225,7 +225,10 @@ document.querySelector('#restoreBackupInput').addEventListener('change', async e
 });
 document.querySelector('#exportCsvButton').addEventListener('click', () => {
   const month = exportMonth.value;
-  const rows = Object.entries(monthlyArchive).filter(([key]) => key.startsWith(`${month}|`)).map(([, entry]) => entry);
+  const rows = Object.entries(monthlyArchive)
+    .filter(([key]) => key.startsWith(`${month}|`))
+    .map(([, entry]) => entry)
+    .sort((a, b) => String(a.date || '').localeCompare(String(b.date || '')) || Number(a.voucherId) - Number(b.voucherId));
   if (!rows.length) {
     document.querySelector('#exportStatus').textContent = 'ഈ മാസത്തിൽ എക്സ്പോർട്ട് ചെയ്യാനുള്ള വിവരങ്ങളില്ല.';
     return;
