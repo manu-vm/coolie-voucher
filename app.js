@@ -1,4 +1,6 @@
 const form = document.querySelector('#receiptForm');
+const diversionForm = document.querySelector('#diversionForm');
+const receiptForms = [form, diversionForm];
 const STORE_KEY = 'idukki-receipts-v2';
 const ARCHIVE_KEY = 'idukki-receipts-monthly-v1';
 const BACKUP_KEY = 'idukki-receipts-auto-backup-v1';
@@ -18,7 +20,7 @@ function localDate() {
 function setDate(container, value) {
   for (const input of container.querySelectorAll('[name="date"]')) input.value = value;
 }
-for (const group of form.querySelectorAll('[data-voucher]')) {
+for (const group of document.querySelectorAll('[data-voucher]')) {
   const index = group.dataset.voucher;
   const values = saved[index] || {};
   for (const input of group.querySelectorAll('[name]')) if (values[input.name] !== undefined) input.value = values[input.name];
@@ -79,7 +81,7 @@ function renderGroup(group) {
   saved[index] = values;
 }
 function render() {
-  form.querySelectorAll('[data-voucher]').forEach(renderGroup);
+  document.querySelectorAll('[data-voucher]').forEach(renderGroup);
   localStorage.setItem(STORE_KEY, JSON.stringify(saved));
   for (const [voucherId, values] of Object.entries(saved)) {
     const month = values.date?.slice(0, 7);
@@ -91,8 +93,10 @@ function render() {
   const backupStatus = document.querySelector('#backupStatus');
   if (backupStatus) backupStatus.textContent = `ഓട്ടോമാറ്റിക് ബാക്കപ്പ് സജ്ജമാണ് · ${new Date().toLocaleString()}`;
 }
-form.addEventListener('input', render);
-form.addEventListener('change', render);
+receiptForms.forEach(receiptForm => {
+  receiptForm.addEventListener('input', render);
+  receiptForm.addEventListener('change', render);
+});
 document.querySelector('#printButton').addEventListener('click', () => window.print());
 const justifyButton = document.querySelector('#justifyButton');
 const paper = document.querySelector('#paper');
@@ -143,8 +147,10 @@ document.querySelector('#diversionFontDown').addEventListener('click', () => cha
 document.querySelector('#diversionFontUp').addEventListener('click', () => changeFontScale(0.1));
 updateFontScale();
 document.querySelector('#clearButton').addEventListener('click', () => {
-  form.reset();
-  form.querySelectorAll('[data-voucher]').forEach(group => setDate(group, localDate()));
+  receiptForms.forEach(receiptForm => {
+    receiptForm.reset();
+    receiptForm.querySelectorAll('[data-voucher]').forEach(group => setDate(group, localDate()));
+  });
   for (const key of Object.keys(saved)) delete saved[key];
   render();
 });
@@ -177,7 +183,7 @@ document.querySelector('#restoreBackupInput').addEventListener('change', async e
     Object.assign(saved, backup.saved);
     Object.keys(monthlyArchive).forEach(key => delete monthlyArchive[key]);
     Object.assign(monthlyArchive, backup.monthlyArchive);
-    for (const group of form.querySelectorAll('[data-voucher]')) {
+    for (const group of document.querySelectorAll('[data-voucher]')) {
       const values = saved[group.dataset.voucher] || {};
       for (const input of group.querySelectorAll('[name]')) input.value = values[input.name] ?? '';
       if (!group.querySelector('[name="date"]').value) setDate(group, localDate());
