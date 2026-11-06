@@ -108,20 +108,26 @@ window.addEventListener('afterprint', () => {
 const FONT_SCALE_KEY = 'idukki-receipt-font-scale';
 let fontScale = Number(localStorage.getItem(FONT_SCALE_KEY)) || 1;
 const fontSizeLabel = document.querySelector('#fontSizeLabel');
+const diversionFontSizeLabel = document.querySelector('#diversionFontSizeLabel');
 function updateFontScale() {
   fontScale = Math.min(1.5, Math.max(0.8, fontScale));
   document.querySelectorAll('.print-paper').forEach(element => element.style.setProperty('--receipt-font-scale', fontScale));
   fontSizeLabel.textContent = `${Math.round(fontScale * 100)}%`;
+  diversionFontSizeLabel.textContent = `${Math.round(fontScale * 100)}%`;
   localStorage.setItem(FONT_SCALE_KEY, String(fontScale));
 }
-document.querySelector('#fontDown').addEventListener('click', () => {
-  fontScale -= 0.1;
+function changeFontScale(amount) {
+  fontScale += amount;
   updateFontScale();
+}
+document.querySelector('#fontDown').addEventListener('click', () => {
+  changeFontScale(-0.1);
 });
 document.querySelector('#fontUp').addEventListener('click', () => {
-  fontScale += 0.1;
-  updateFontScale();
+  changeFontScale(0.1);
 });
+document.querySelector('#diversionFontDown').addEventListener('click', () => changeFontScale(-0.1));
+document.querySelector('#diversionFontUp').addEventListener('click', () => changeFontScale(0.1));
 updateFontScale();
 document.querySelector('#clearButton').addEventListener('click', () => {
   form.reset();
