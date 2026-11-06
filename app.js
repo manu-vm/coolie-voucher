@@ -88,16 +88,17 @@ justifyButton.addEventListener('click', () => {
   justifyButton.setAttribute('aria-pressed', String(justified));
 });
 document.querySelector('#previewPrintButton').addEventListener('click', () => window.print());
-const diversionCopy = document.querySelector('.diversion-copy');
+const diversionCopies = document.querySelectorAll('.diversion-copy');
 const diversionJustifyButton = document.querySelector('#diversionJustifyButton');
 diversionJustifyButton.addEventListener('click', () => {
-  const justified = diversionCopy.classList.toggle('justified');
+  const justified = !diversionCopies[0].classList.contains('justified');
+  diversionCopies.forEach(copy => copy.classList.toggle('justified', justified));
   diversionJustifyButton.setAttribute('aria-pressed', String(justified));
 });
 const orientationStyle = document.querySelector('#pageOrientation');
 document.querySelector('#diversionPrintButton').addEventListener('click', () => {
   document.body.classList.add('print-diversion');
-  orientationStyle.textContent = '@page{size:210mm 297mm;margin:8mm}';
+  orientationStyle.textContent = '@page{size:297mm 210mm;margin:8mm}';
   window.print();
 });
 window.addEventListener('afterprint', () => {
