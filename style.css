@@ -27,7 +27,7 @@
 @media print{.paper{font-size:13pt;font-weight:700;line-height:1.7}.receipt-title{font-size:27pt}.copy p{margin-bottom:1.7mm}.night-place{column-gap:3mm}}
 .paper{font-weight:500}
 .receipt-title{font-size:24px}
-.copy u{border-bottom:1px dotted #333}
+.copy u{border-bottom:1px dotted #333;padding-bottom:3px}
 .preview-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap}
 .preview-print-btn{font-size:11px;padding:7px 10px;box-shadow:none}
 .justify-btn{border:1px solid #d6dfd6;border-radius:6px;background:#fffefa;color:#294c3d;font:600 11px 'DM Sans',sans-serif;padding:7px 10px;cursor:pointer}
@@ -44,4 +44,4 @@
 .paper.justified .receipt-body p{text-align:justify;text-align-last:justify}
 .place.night-place .shift{grid-column:2;grid-row:1;justify-self:start;text-align:left}
 .copy .amount-words{display:inline;text-decoration:none!important;text-decoration-thickness:initial;border-bottom:1px dotted currentColor!important;padding:0 0 3px!important;-webkit-box-decoration-break:clone;box-decoration-break:clone}
-@media print{.paper{width:100%;height:190mm;aspect-ratio:auto;font-size:calc(12.5pt * var(--receipt-font-scale,1));font-weight:500;line-height:1.7}.receipt-title{font-size:calc(26pt * var(--receipt-font-scale,1));font-weight:700}.copy u{border-bottom:1px dotted #222}.copy p{margin-bottom:1.5mm}.receipt-body{margin-bottom:6mm}.copy .advance-note{margin-top:6mm;margin-bottom:6mm}.copy .amount-words{padding-bottom:1.5mm!important}}
+@media print{.paper{width:100%;height:190mm;aspect-ratio:auto;font-size:calc(12.5pt * var(--receipt-font-scale,1));font-weight:500;line-height:1.7}.receipt-title{font-size:calc(26pt * var(--receipt-font-scale,1));font-weight:700}.copy u{border-bottom:1px dotted #222;padding-bottom:1.5mm}.copy p{margin-bottom:1.5mm}.receipt-body{margin-bottom:6mm}.copy .advance-note{margin-top:6mm;margin-bottom:6mm}.copy .amount-words{padding-bottom:1.5mm!important}}
