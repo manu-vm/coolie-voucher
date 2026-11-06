@@ -88,12 +88,22 @@ justifyButton.addEventListener('click', () => {
   justifyButton.setAttribute('aria-pressed', String(justified));
 });
 document.querySelector('#previewPrintButton').addEventListener('click', () => window.print());
+const orientationStyle = document.querySelector('#pageOrientation');
+document.querySelector('#diversionPrintButton').addEventListener('click', () => {
+  document.body.classList.add('print-diversion');
+  orientationStyle.textContent = '@page{size:210mm 297mm;margin:8mm}';
+  window.print();
+});
+window.addEventListener('afterprint', () => {
+  document.body.classList.remove('print-diversion');
+  orientationStyle.textContent = '@page{size:297mm 210mm;margin:8mm}';
+});
 const FONT_SCALE_KEY = 'idukki-receipt-font-scale';
 let fontScale = Number(localStorage.getItem(FONT_SCALE_KEY)) || 1;
 const fontSizeLabel = document.querySelector('#fontSizeLabel');
 function updateFontScale() {
   fontScale = Math.min(1.5, Math.max(0.8, fontScale));
-  paper.style.setProperty('--receipt-font-scale', fontScale);
+  document.querySelectorAll('.print-paper').forEach(element => element.style.setProperty('--receipt-font-scale', fontScale));
   fontSizeLabel.textContent = `${Math.round(fontScale * 100)}%`;
   localStorage.setItem(FONT_SCALE_KEY, String(fontScale));
 }
