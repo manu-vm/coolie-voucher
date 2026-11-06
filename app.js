@@ -234,7 +234,7 @@ document.querySelector('#exportCsvButton').addEventListener('click', () => {
   const escape = value => `"${String(value ?? '').replace(/"/g, '""')}"`;
   const csvRows = rows.map(entry => {
     const total = (Number(entry.bundles) || 0) * (Number(entry.bundleCharge) || 0);
-    const dateAsText = entry.date ? `="${dateLabel(entry.date)}"` : '';
+    const dateAsText = entry.date ? dateLabel(entry.date) : '';
     return [dateAsText, entry.draw, entry.tickets, entry.bundles, entry.bundleCharge, total];
   });
   const csv = `\ufeff${[headings, ...csvRows].map(row => row.map(escape).join(',')).join('\r\n')}`;
