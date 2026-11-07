@@ -122,6 +122,7 @@ justifyButton.addEventListener('click', () => {
   justifyButton.setAttribute('aria-pressed', String(justified));
 });
 document.querySelector('#previewPrintButton').addEventListener('click', () => printVouchers([1, 2]));
+document.querySelector('#updateReceiptCsvButton').addEventListener('click', () => updateCsvForVouchers([1, 2]));
 const diversionCopies = document.querySelectorAll('.diversion-copy');
 const diversionJustifyButton = document.querySelector('#diversionJustifyButton');
 diversionJustifyButton.addEventListener('click', () => {
@@ -135,6 +136,7 @@ document.querySelector('#diversionPrintButton').addEventListener('click', () => 
   orientationStyle.textContent = '@page{size:297mm 210mm;margin:8mm}';
   printVouchers([3, 4]);
 });
+document.querySelector('#updateDiversionCsvButton').addEventListener('click', () => updateCsvForVouchers([3, 4]));
 window.addEventListener('afterprint', () => {
   document.body.classList.remove('print-diversion');
   orientationStyle.textContent = '@page{size:297mm 210mm;margin:8mm}';
@@ -181,7 +183,7 @@ function downloadFile(fileName, contents, mimeType) {
   link.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
-function printVouchers(voucherIds) {
+function updateCsvForVouchers(voucherIds) {
   const months = new Set();
   for (const voucherId of voucherIds) {
     const group = document.querySelector(`[data-voucher="${voucherId}"]`);
@@ -196,8 +198,14 @@ function printVouchers(voucherIds) {
   render();
   for (const month of months) downloadMonthCsv(month, false);
   if (months.size) {
-    document.querySelector('#exportStatus').textContent = 'പ്രിന്റിനു മുമ്പ് നിലവിലെ മാസത്തെ CSV പുതുക്കി ഡൗൺലോഡ് ചെയ്തു.';
+    document.querySelector('#exportStatus').textContent = 'നിലവിലെ മാസത്തെ CSV പുതുക്കി ഡൗൺലോഡ് ചെയ്തു.';
+  } else {
+    document.querySelector('#exportStatus').textContent = 'CSV പുതുക്കാൻ വൗച്ചർ വിവരങ്ങൾ നൽകുക.';
   }
+  return months.size > 0;
+}
+function printVouchers(voucherIds) {
+  updateCsvForVouchers(voucherIds);
   window.print();
 }
 function monthNow() {
