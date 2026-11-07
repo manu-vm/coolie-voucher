@@ -198,6 +198,7 @@ function updateCsvForVouchers(voucherIds) {
     monthlyArchive[`${month}|${voucherId}|${uniqueId}`] = { voucherId, ...values, recordedAt };
   });
   saveArchiveAndBackup();
+  refreshCsvRows();
   for (const month of months) downloadMonthCsv(month, false);
   if (months.size) {
     document.querySelector('#exportStatus').textContent = 'നിലവിലെ മാസത്തെ CSV പുതുക്കി ഡൗൺലോഡ് ചെയ്തു.';
@@ -213,9 +214,14 @@ const exportMonth = document.querySelector('#exportMonth');
 exportMonth.value = monthNow();
 const deleteCsvButton = document.querySelector('#deleteCsvButton');
 const undoCsvDeleteButton = document.querySelector('#undoCsvDeleteButton');
+const csvRowSelect = document.querySelector('#csvRowSelect');
+const loadCsvRowButton = document.querySelector('#loadCsvRowButton');
+const deleteCsvRowButton = document.querySelector('#deleteCsvRowButton');
 undoCsvDeleteButton.disabled = !pendingUndo;
 deleteCsvButton.disabled = Boolean(pendingUndo);
-if (pendingUndo) document.querySelector('#exportStatus').textContent = `മാസം ${pendingUndo.month} മായ്ച്ചു · Undo ഉപയോഗിച്ച് തിരിച്ചെടുക്കാം.`;
+deleteCsvRowButton.disabled = Boolean(pendingUndo);
+if (pendingUndo) document.querySelector('#exportStatus').textContent = `${pendingUndo.entries.length} CSV വരികൾ മായ്ച്ചു · Undo ഉപയോഗിച്ച് തിരിച്ചെടുക്കാം.`;
+refreshCsvRows();
 document.querySelector('#downloadBackupButton').addEventListener('click', () => {
   const backup = { version: 1, savedAt: new Date().toISOString(), saved, monthlyArchive, deletedCsvEntries };
   downloadFile(`idukki-voucher-backup-${monthNow()}.json`, JSON.stringify(backup, null, 2), 'application/json');
@@ -248,12 +254,37 @@ document.querySelector('#restoreBackupInput').addEventListener('change', async e
   }
   event.target.value = '';
 });
-function downloadMonthCsv(month, showEmptyStatus = true) {
-  const rows = Object.entries(monthlyArchive)
+function rowsForMonth(month) {
+  return Object.entries(monthlyArchive)
     .filter(([key]) => key.startsWith(`${month}|`))
-    .map(([, entry]) => entry)
-    .sort((a, b) => String(a.date || '').localeCompare(String(b.date || '')) || Number(a.voucherId) - Number(b.voucherId) || Number(a.recordedAt || 0) - Number(b.recordedAt || 0));
-  if (!rows.length) {
+    .map(([key, entry]) => ({ key, entry }))
+    .sort((a, b) => String(a.entry.date || '').localeCompare(String(b.entry.date || '')) || Number(a.entry.voucherId) - Number(b.entry.voucherId) || Number(a.entry.recordedAt || 0) - Number(b.entry.recordedAt || 0));
+}
+function refreshCsvRows(preferredKey = '') {
+  const entries = rowsForMonth(exportMonth.value);
+  csvRowSelect.replaceChildren();
+  if (!entries.length) {
+    const option = document.createElement('option');
+    option.value = '';
+    option.textContent = 'ഈ മാസത്തിൽ വരികളില്ല';
+    csvRowSelect.append(option);
+  } else {
+    entries.forEach(({ key, entry }, index) => {
+      const option = document.createElement('option');
+      const voucherType = Number(entry.voucherId) >= 3 ? 'Diversion' : 'രസീത്';
+      option.value = key;
+      option.textContent = `${dateLabel(entry.date)} · ${voucherType} ${entry.voucherId} · ${entry.draw || '—'} · ${index + 1}`;
+      csvRowSelect.append(option);
+    });
+    if (preferredKey && entries.some(({ key }) => key === preferredKey)) csvRowSelect.value = preferredKey;
+  }
+  const hasSelection = Boolean(csvRowSelect.value);
+  loadCsvRowButton.disabled = !hasSelection;
+  deleteCsvRowButton.disabled = Boolean(pendingUndo) || !hasSelection;
+}
+function downloadMonthCsv(month, showEmptyStatus = true, allowEmptyDownload = false) {
+  const rows = rowsForMonth(month).map(({ entry }) => entry);
+  if (!rows.length && !allowEmptyDownload) {
     if (showEmptyStatus) document.querySelector('#exportStatus').textContent = 'ഈ മാസത്തിൽ എക്സ്പോർട്ട് ചെയ്യാനുള്ള വിവരങ്ങളില്ല.';
     return false;
   }
@@ -273,6 +304,32 @@ function downloadMonthCsv(month, showEmptyStatus = true) {
 document.querySelector('#exportCsvButton').addEventListener('click', () => {
   downloadMonthCsv(exportMonth.value);
 });
+exportMonth.addEventListener('change', () => refreshCsvRows());
+document.querySelector('#loadCsvRowButton').addEventListener('click', () => {
+  const entry = monthlyArchive[csvRowSelect.value];
+  if (!entry) return;
+  const group = document.querySelector(`[data-voucher="${entry.voucherId}"]`);
+  if (!group) return;
+  for (const input of group.querySelectorAll('[name]')) input.value = entry[input.name] ?? '';
+  render();
+  document.querySelector('#csvRowStatus').textContent = `CSV വരി ${dateLabel(entry.date)} ഇൻപുട്ടിൽ ചേർത്തു.`;
+});
+deleteCsvRowButton.addEventListener('click', () => {
+  const key = csvRowSelect.value;
+  const entry = monthlyArchive[key];
+  if (!entry || pendingUndo) return;
+  const month = String(entry.date || '').slice(0, 7);
+  pendingUndo = { month, entries: [[key, entry]] };
+  localStorage.setItem(UNDO_KEY, JSON.stringify(pendingUndo));
+  delete monthlyArchive[key];
+  deletedCsvEntries[key] = true;
+  saveArchiveAndBackup();
+  undoCsvDeleteButton.disabled = false;
+  deleteCsvButton.disabled = true;
+  refreshCsvRows();
+  document.querySelector('#csvRowStatus').textContent = 'തിരഞ്ഞെടുത്ത CSV വരി മായ്ച്ചു. Undo ഉപയോഗിച്ച് തിരിച്ചെടുക്കാം.';
+  downloadMonthCsv(month, false, true);
+});
 deleteCsvButton.addEventListener('click', () => {
   const month = exportMonth.value;
   const entries = Object.entries(monthlyArchive).filter(([key]) => key.startsWith(`${month}|`));
@@ -289,10 +346,12 @@ deleteCsvButton.addEventListener('click', () => {
   saveArchiveAndBackup();
   undoCsvDeleteButton.disabled = false;
   deleteCsvButton.disabled = true;
+  refreshCsvRows();
   document.querySelector('#exportStatus').textContent = `${month} മാസത്തെ ${entries.length} റെക്കോർഡുകൾ മായ്ച്ചു. Undo അമർത്തി തിരിച്ചെടുക്കാം.`;
 });
 undoCsvDeleteButton.addEventListener('click', () => {
   if (!pendingUndo) return;
+  const month = pendingUndo.month;
   pendingUndo.entries.forEach(([key, value]) => {
     monthlyArchive[key] = value;
     delete deletedCsvEntries[key];
@@ -302,5 +361,7 @@ undoCsvDeleteButton.addEventListener('click', () => {
   saveArchiveAndBackup();
   undoCsvDeleteButton.disabled = true;
   deleteCsvButton.disabled = false;
+  refreshCsvRows();
   document.querySelector('#exportStatus').textContent = 'മായ്ച്ച ഡാറ്റ തിരിച്ചെടുത്തു.';
+  if (month) downloadMonthCsv(month, false);
 });
