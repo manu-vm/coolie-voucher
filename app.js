@@ -94,12 +94,6 @@ function saveArchiveAndBackup() {
 function render() {
   document.querySelectorAll('[data-voucher]').forEach(renderGroup);
   localStorage.setItem(STORE_KEY, JSON.stringify(saved));
-  for (const [voucherId, values] of Object.entries(saved)) {
-    const month = values.date?.slice(0, 7);
-    const hasEntry = values.draw || values.tickets || values.bundles || values.bundleCharge;
-    const archiveKey = `${month}|${voucherId}`;
-    if (month && hasEntry && !deletedCsvEntries[archiveKey]) monthlyArchive[archiveKey] = { voucherId, ...values };
-  }
   saveArchiveAndBackup();
 }
 receiptForms.forEach(receiptForm => {
@@ -185,6 +179,7 @@ function downloadFile(fileName, contents, mimeType) {
 }
 function updateCsvForVouchers(voucherIds) {
   const months = new Set();
+  const records = [];
   for (const voucherId of voucherIds) {
     const group = document.querySelector(`[data-voucher="${voucherId}"]`);
     const values = Object.fromEntries([...group.querySelectorAll('[name]')].map(input => [input.name, input.value.trim()]));
@@ -193,9 +188,18 @@ function updateCsvForVouchers(voucherIds) {
     if (month && hasEntry) {
       delete deletedCsvEntries[`${month}|${voucherId}`];
       months.add(month);
+      records.push({ month, voucherId, values });
     }
   }
   render();
+  const recordedAt = Date.now();
+  records.forEach(({ month, voucherId, values }, index) => {
+    // Remove the old editable draft row, then preserve each explicit print/update as its own row.
+    delete monthlyArchive[`${month}|${voucherId}`];
+    const uniqueId = `${recordedAt.toString(36)}-${index}-${Math.random().toString(36).slice(2, 8)}`;
+    monthlyArchive[`${month}|${voucherId}|${uniqueId}`] = { voucherId, ...values, recordedAt };
+  });
+  saveArchiveAndBackup();
   for (const month of months) downloadMonthCsv(month, false);
   if (months.size) {
     document.querySelector('#exportStatus').textContent = 'നിലവിലെ മാസത്തെ CSV പുതുക്കി ഡൗൺലോഡ് ചെയ്തു.';
@@ -254,7 +258,7 @@ function downloadMonthCsv(month, showEmptyStatus = true) {
   const rows = Object.entries(monthlyArchive)
     .filter(([key]) => key.startsWith(`${month}|`))
     .map(([, entry]) => entry)
-    .sort((a, b) => String(a.date || '').localeCompare(String(b.date || '')) || Number(a.voucherId) - Number(b.voucherId));
+    .sort((a, b) => String(a.date || '').localeCompare(String(b.date || '')) || Number(a.voucherId) - Number(b.voucherId) || Number(a.recordedAt || 0) - Number(b.recordedAt || 0));
   if (!rows.length) {
     if (showEmptyStatus) document.querySelector('#exportStatus').textContent = 'ഈ മാസത്തിൽ എക്സ്പോർട്ട് ചെയ്യാനുള്ള വിവരങ്ങളില്ല.';
     return false;
