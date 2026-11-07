@@ -103,3 +103,7 @@
 .tool-status{margin:8px 0 0!important;color:#526b58!important}
 @media(max-width:720px){.data-tools-grid{grid-template-columns:1fr}.data-tools,.diversion-input-panel{padding:16px}.diversion-input-forms{grid-template-columns:1fr}}
 @media print{.data-tools,.diversion-input-panel{display:none!important}}
+
+/* Apply the same raised dotted underline to both voucher formats. */
+.copy u,.diversion-copy u{border-bottom:0!important;text-decoration:underline dotted #222!important;text-underline-offset:-4px;padding-bottom:0!important}
+.copy .amount-words,.diversion-copy .amount-words{border-bottom:0!important;text-decoration:underline dotted #222!important;text-underline-offset:-4px;padding-bottom:0!important;-webkit-box-decoration-break:clone;box-decoration-break:clone}
