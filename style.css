@@ -58,8 +58,8 @@
 .diversion-body{margin:0 0 30px}
 .diversion-body p{margin:0;line-height:1.65}
 .diversion-date{margin:0 3px 1mm;font-size:.9em;min-height:1em}
-.diversion-copy u{white-space:nowrap;text-decoration:underline dotted #222;text-underline-offset:0.12em;border-bottom:0;padding:0 3px 0}
-.diversion-copy .amount-words{white-space:normal;text-decoration:underline dotted #222!important;text-underline-offset:0.12em;border-bottom:0!important;padding:0 0 1px!important;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.diversion-copy u{white-space:nowrap;text-decoration:underline dotted #222;text-underline-offset:0.2em;border-bottom:0;padding:0 3px 0}
+.diversion-copy .amount-words{white-space:normal;text-decoration:underline dotted #222!important;text-underline-offset:0.2em;border-bottom:0!important;padding:0 0 1px!important;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .diversion-place{display:flex;justify-content:space-between;align-items:flex-start;margin:0 3px 10px;font-size:.98em}
 .diversion-copy .advance-note{margin:18px 0 48px;line-height:1.7}
 .diversion-copy.justified .diversion-body p{text-align:justify;text-align-last:justify}
@@ -105,5 +105,5 @@
 @media print{.data-tools,.diversion-input-panel{display:none!important}}
 
 /* Apply the same raised dotted underline to both voucher formats. */
-.copy u,.diversion-copy u{border-bottom:0!important;text-decoration:underline dotted #222!important;text-underline-offset:0.12em;padding-bottom:0!important}
-.copy .amount-words,.diversion-copy .amount-words{border-bottom:0!important;text-decoration:underline dotted #222!important;text-underline-offset:0.12em;padding-bottom:0!important;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.copy u,.diversion-copy u{border-bottom:0!important;text-decoration:underline dotted #222!important;text-underline-offset:0.2em;padding-bottom:0!important}
+.copy .amount-words,.diversion-copy .amount-words{border-bottom:0!important;text-decoration:underline dotted #222!important;text-underline-offset:0.2em;padding-bottom:0!important;-webkit-box-decoration-break:clone;box-decoration-break:clone}
