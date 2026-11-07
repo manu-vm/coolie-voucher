@@ -114,14 +114,14 @@ receiptForms.forEach(receiptForm => {
   receiptForm.addEventListener('input', handleFormUpdate);
   receiptForm.addEventListener('change', handleFormUpdate);
 });
-document.querySelector('#printButton').addEventListener('click', () => window.print());
+document.querySelector('#printButton').addEventListener('click', () => printVouchers([1, 2]));
 const justifyButton = document.querySelector('#justifyButton');
 const paper = document.querySelector('#paper');
 justifyButton.addEventListener('click', () => {
   const justified = paper.classList.toggle('justified');
   justifyButton.setAttribute('aria-pressed', String(justified));
 });
-document.querySelector('#previewPrintButton').addEventListener('click', () => window.print());
+document.querySelector('#previewPrintButton').addEventListener('click', () => printVouchers([1, 2]));
 const diversionCopies = document.querySelectorAll('.diversion-copy');
 const diversionJustifyButton = document.querySelector('#diversionJustifyButton');
 diversionJustifyButton.addEventListener('click', () => {
@@ -133,7 +133,7 @@ const orientationStyle = document.querySelector('#pageOrientation');
 document.querySelector('#diversionPrintButton').addEventListener('click', () => {
   document.body.classList.add('print-diversion');
   orientationStyle.textContent = '@page{size:297mm 210mm;margin:8mm}';
-  window.print();
+  printVouchers([3, 4]);
 });
 window.addEventListener('afterprint', () => {
   document.body.classList.remove('print-diversion');
@@ -181,6 +181,25 @@ function downloadFile(fileName, contents, mimeType) {
   link.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
+function printVouchers(voucherIds) {
+  const months = new Set();
+  for (const voucherId of voucherIds) {
+    const group = document.querySelector(`[data-voucher="${voucherId}"]`);
+    const values = Object.fromEntries([...group.querySelectorAll('[name]')].map(input => [input.name, input.value.trim()]));
+    const month = values.date?.slice(0, 7);
+    const hasEntry = values.draw || values.tickets || values.bundles || values.bundleCharge;
+    if (month && hasEntry) {
+      delete deletedCsvEntries[`${month}|${voucherId}`];
+      months.add(month);
+    }
+  }
+  render();
+  for (const month of months) downloadMonthCsv(month, false);
+  if (months.size) {
+    document.querySelector('#exportStatus').textContent = 'പ്രിന്റിനു മുമ്പ് നിലവിലെ മാസത്തെ CSV പുതുക്കി ഡൗൺലോഡ് ചെയ്തു.';
+  }
+  window.print();
+}
 function monthNow() {
   return localDate().slice(0, 7);
 }
@@ -223,15 +242,14 @@ document.querySelector('#restoreBackupInput').addEventListener('change', async e
   }
   event.target.value = '';
 });
-document.querySelector('#exportCsvButton').addEventListener('click', () => {
-  const month = exportMonth.value;
+function downloadMonthCsv(month, showEmptyStatus = true) {
   const rows = Object.entries(monthlyArchive)
     .filter(([key]) => key.startsWith(`${month}|`))
     .map(([, entry]) => entry)
     .sort((a, b) => String(a.date || '').localeCompare(String(b.date || '')) || Number(a.voucherId) - Number(b.voucherId));
   if (!rows.length) {
-    document.querySelector('#exportStatus').textContent = 'ഈ മാസത്തിൽ എക്സ്പോർട്ട് ചെയ്യാനുള്ള വിവരങ്ങളില്ല.';
-    return;
+    if (showEmptyStatus) document.querySelector('#exportStatus').textContent = 'ഈ മാസത്തിൽ എക്സ്പോർട്ട് ചെയ്യാനുള്ള വിവരങ്ങളില്ല.';
+    return false;
   }
   const headings = ['തീയതി', 'Diverstion Ticket?', 'ലോട്ടറി നറുക്കെടുപ്പ്', 'ടിക്കറ്റുകൾ', 'കെട്ടുകൾ', 'ഒരു കെട്ടിന്റെ കൂലി', 'ആകെ കൂലി'];
   const escape = value => `"${String(value ?? '').replace(/"/g, '""')}"`;
@@ -243,7 +261,11 @@ document.querySelector('#exportCsvButton').addEventListener('click', () => {
   });
   const csv = `\ufeff${[headings, ...csvRows].map(row => row.map(escape).join(',')).join('\r\n')}`;
   downloadFile(`idukki-vouchers-${month}.csv`, csv, 'text/csv;charset=utf-8');
-  document.querySelector('#exportStatus').textContent = `${rows.length} രസീത് വിവരങ്ങൾ CSV ആയി ഡൗൺലോഡ് ചെയ്തു.`;
+  if (showEmptyStatus) document.querySelector('#exportStatus').textContent = `${rows.length} രസീത് വിവരങ്ങൾ CSV ആയി ഡൗൺലോഡ് ചെയ്തു.`;
+  return true;
+}
+document.querySelector('#exportCsvButton').addEventListener('click', () => {
+  downloadMonthCsv(exportMonth.value);
 });
 deleteCsvButton.addEventListener('click', () => {
   const month = exportMonth.value;
