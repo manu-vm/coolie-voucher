@@ -108,14 +108,14 @@ receiptForms.forEach(receiptForm => {
   receiptForm.addEventListener('input', handleFormUpdate);
   receiptForm.addEventListener('change', handleFormUpdate);
 });
-document.querySelector('#printButton').addEventListener('click', () => printVouchers([1, 2]));
+document.querySelector('#printButton').addEventListener('click', () => window.print());
 const justifyButton = document.querySelector('#justifyButton');
 const paper = document.querySelector('#paper');
 justifyButton.addEventListener('click', () => {
   const justified = paper.classList.toggle('justified');
   justifyButton.setAttribute('aria-pressed', String(justified));
 });
-document.querySelector('#previewPrintButton').addEventListener('click', () => printVouchers([1, 2]));
+document.querySelector('#previewPrintButton').addEventListener('click', () => window.print());
 document.querySelector('#updateReceiptCsvButton').addEventListener('click', () => updateCsvForVouchers([1, 2]));
 const diversionCopies = document.querySelectorAll('.diversion-copy');
 const diversionJustifyButton = document.querySelector('#diversionJustifyButton');
@@ -128,7 +128,7 @@ const orientationStyle = document.querySelector('#pageOrientation');
 document.querySelector('#diversionPrintButton').addEventListener('click', () => {
   document.body.classList.add('print-diversion');
   orientationStyle.textContent = '@page{size:297mm 210mm;margin:8mm}';
-  printVouchers([3, 4]);
+  window.print();
 });
 document.querySelector('#updateDiversionCsvButton').addEventListener('click', () => updateCsvForVouchers([3, 4]));
 window.addEventListener('afterprint', () => {
@@ -186,7 +186,6 @@ function updateCsvForVouchers(voucherIds) {
     const month = values.date?.slice(0, 7);
     const hasEntry = values.draw || values.tickets || values.bundles || values.bundleCharge;
     if (month && hasEntry) {
-      delete deletedCsvEntries[`${month}|${voucherId}`];
       months.add(month);
       records.push({ month, voucherId, values });
     }
@@ -194,8 +193,7 @@ function updateCsvForVouchers(voucherIds) {
   render();
   const recordedAt = Date.now();
   records.forEach(({ month, voucherId, values }, index) => {
-    // Remove the old editable draft row, then preserve each explicit print/update as its own row.
-    delete monthlyArchive[`${month}|${voucherId}`];
+    // Preserve existing rows and append each explicit CSV update as a new row.
     const uniqueId = `${recordedAt.toString(36)}-${index}-${Math.random().toString(36).slice(2, 8)}`;
     monthlyArchive[`${month}|${voucherId}|${uniqueId}`] = { voucherId, ...values, recordedAt };
   });
@@ -207,10 +205,6 @@ function updateCsvForVouchers(voucherIds) {
     document.querySelector('#exportStatus').textContent = 'CSV പുതുക്കാൻ വൗച്ചർ വിവരങ്ങൾ നൽകുക.';
   }
   return months.size > 0;
-}
-function printVouchers(voucherIds) {
-  updateCsvForVouchers(voucherIds);
-  window.print();
 }
 function monthNow() {
   return localDate().slice(0, 7);
