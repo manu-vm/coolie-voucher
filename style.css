@@ -49,7 +49,8 @@
 .diversion-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
 .diversion-head>div{display:flex;align-items:center;gap:10px}
 .diversion-head h2{font:600 14px 'Noto Sans Malayalam';margin:0}
-.diversion-actions{display:flex;align-items:center;gap:8px}
+.diversion-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+.csv-update-btn{white-space:nowrap}
 .diversion-paper-wrap{background:#e9e8e2;border:1px solid #e1dfd7;border-radius:8px;padding:18px;overflow:auto}
 .diversion-paper{width:min(100%,1100px);aspect-ratio:297/210;margin:0 auto;background:#fff;box-shadow:0 3px 14px #25241f18;padding:5% 4%;display:grid;grid-template-columns:1fr 1fr;color:#1c1c1a;font:calc(14px * var(--receipt-font-scale,1))/1.6 'Noto Sans Malayalam',sans-serif}
 .diversion-copy{padding:0 6%}
