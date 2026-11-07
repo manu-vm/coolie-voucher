@@ -101,6 +101,9 @@
 .file-action{display:inline-flex;align-items:center;position:relative;overflow:hidden}
 .file-action input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
 .month-label{max-width:180px}
+.csv-row-label{display:grid;gap:5px;max-width:100%;font:500 10px 'Noto Sans Malayalam';color:#57584f}
+.csv-row-label select{min-height:36px;max-width:100%;border:1px solid #e3e1d9;border-radius:6px;padding:0 10px;background:#fffefa;font:12px 'Noto Sans Malayalam';color:#333}
+.csv-row-label select:focus{outline:2px solid #819888;outline-offset:1px}
 .tool-status{margin:8px 0 0!important;color:#526b58!important}
 @media(max-width:720px){.data-tools-grid{grid-template-columns:1fr}.data-tools,.diversion-input-panel{padding:16px}.diversion-input-forms{grid-template-columns:1fr}}
 @media print{.data-tools,.diversion-input-panel{display:none!important}}
